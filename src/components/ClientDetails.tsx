@@ -2,9 +2,7 @@ import React from 'react';
 import { Controller, Control, useFieldArray, UseFormSetValue } from 'react-hook-form';
 import {
   Card,
-  CardHeader,
   CardBody,
-  Heading,
   Grid,
   GridItem,
   Text,
@@ -14,7 +12,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
-import { FormData, CustomField } from '../App';
+import { FormData, CustomField } from '../types';  // Updated import
 
 interface ClientDetailsProps {
   control: Control<FormData>;
@@ -28,10 +26,7 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ control }) => {
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <Heading size="md">Client Details</Heading>
-      </CardHeader>
+    <Card border="1px solid #E3E8EF">
       <CardBody>
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
@@ -68,7 +63,7 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ control }) => {
           </GridItem>
         </Grid>
         <VStack spacing={4} align="stretch" mt={4}>
-          <Heading size="sm">Custom Fields</Heading>
+          <Text fontSize="lg" fontWeight="bold">Custom Fields</Text>
           {fields.map((field, index) => (
             <HStack key={field.id} spacing={3}>
               <Controller

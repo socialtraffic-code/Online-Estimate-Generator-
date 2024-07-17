@@ -8,7 +8,7 @@ import {
   VStack,
   Textarea,
 } from '@chakra-ui/react';
-import { FormData } from '../App';
+import { FormData } from '../types';  // Import from types instead of App
 
 interface NotesAndTermsProps {
   control: Control<FormData>;

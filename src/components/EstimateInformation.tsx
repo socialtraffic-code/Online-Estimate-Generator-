@@ -2,16 +2,14 @@ import React from 'react';
 import { Controller, Control } from 'react-hook-form';
 import {
   Card,
-  CardHeader,
   CardBody,
-  Heading,
   Grid,
   GridItem,
   Text,
   Input,
   Select,
 } from '@chakra-ui/react';
-import { FormData } from '../App';
+import { FormData } from '../types';  // Import from types instead of App
 
 interface EstimateInformationProps {
   control: Control<FormData>;
@@ -20,10 +18,7 @@ interface EstimateInformationProps {
 
 const EstimateInformation: React.FC<EstimateInformationProps> = ({ control, exchangeRates }) => {
   return (
-    <Card>
-      <CardHeader>
-        <Heading size="md">Estimate Information</Heading>
-      </CardHeader>
+    <Card border="1px" borderColor="gray.200" borderRadius="md">
       <CardBody>
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>

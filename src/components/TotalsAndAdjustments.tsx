@@ -12,28 +12,28 @@ import {
   Text,
   Box,
 } from '@chakra-ui/react';
-import { FormData } from '../App';
+import { FormData, Item } from '../types'; // Update this import to use the types file
 
 interface TotalsAndAdjustmentsProps {
   control: Control<FormData>;
 }
 
 const TotalsAndAdjustments: React.FC<TotalsAndAdjustmentsProps> = ({ control }) => {
-  const items = useWatch({ control, name: 'items' });
-  const taxRate = useWatch({ control, name: 'tax' });
-  const discount = useWatch({ control, name: 'discount' });
-  const currency = useWatch({ control, name: 'currency' });
+  const items = useWatch({ control, name: 'items' }) as Item[];
+  const taxRate = useWatch({ control, name: 'tax' }) as number;
+  const discount = useWatch({ control, name: 'discount' }) as { type: 'percentage' | 'fixed'; value: number };
+  const currency = useWatch({ control, name: 'currency' }) as string;
 
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
   const calculateSubtotal = () => {
-    return items.reduce((sum, item) => sum + (Number(item.rate) * item.quantity), 0);
+    return items.reduce((sum: number, item: Item) => sum + (Number(item.rate) * item.quantity), 0);
   };
 
   const calculateTaxAmount = () => {
-    return items.reduce((sum, item) => {
+    return items.reduce((sum: number, item: Item) => {
       if (item.tax) {
         return sum + (Number(item.rate) * item.quantity * (taxRate / 100));
       }
@@ -113,7 +113,7 @@ const TotalsAndAdjustments: React.FC<TotalsAndAdjustmentsProps> = ({ control }) 
             <Text>Discount Amount:</Text>
             <Text>{currency} {formatCurrency(calculateDiscountAmount(calculateSubtotal()))}</Text>
           </HStack>
-          <Box backgroundColor="gray.100" p={4} borderRadius="md">
+          <Box p={4} borderRadius="md" borderWidth="1px" borderColor="gray.200">
             <HStack justify="space-between">
               <Heading size="md">Total:</Heading>
               <Heading size="md">{currency} {formatCurrency(calculateTotal())}</Heading>

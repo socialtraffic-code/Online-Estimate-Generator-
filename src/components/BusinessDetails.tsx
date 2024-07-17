@@ -2,9 +2,7 @@ import React from 'react';
 import { Controller, Control, useFieldArray } from 'react-hook-form';
 import {
   Card,
-  CardHeader,
   CardBody,
-  Heading,
   Grid,
   GridItem,
   Text,
@@ -14,7 +12,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { FiPlus, FiTrash2 } from 'react-icons/fi';
-import { FormData, CustomField } from '../App';
+import { FormData, CustomField } from '../types';  // Import from types instead of App
 
 interface BusinessDetailsProps {
   control: Control<FormData>;
@@ -28,9 +26,6 @@ const BusinessDetails: React.FC<BusinessDetailsProps> = ({ control }) => {
 
   return (
     <Card>
-      <CardHeader>
-        <Heading size="md">Business Details</Heading>
-      </CardHeader>
       <CardBody>
         <Grid templateColumns="repeat(2, 1fr)" gap={4}>
           <GridItem>
@@ -67,11 +62,11 @@ const BusinessDetails: React.FC<BusinessDetailsProps> = ({ control }) => {
           </GridItem>
         </Grid>
         <VStack spacing={4} align="stretch" mt={4}>
-          <Heading size="sm">Custom Fields</Heading>
+          <Text fontSize="lg" fontWeight="bold">Custom Fields</Text>
           {fields.map((field, index) => (
             <HStack key={field.id}>
               <Controller
-                name={`businessDetails.customFields.${index}.key`}
+                name={`businessDetails.customFields.${index}.key` as const}
                 control={control}
                 render={({ field }) => (
                   <Input
@@ -81,7 +76,7 @@ const BusinessDetails: React.FC<BusinessDetailsProps> = ({ control }) => {
                 )}
               />
               <Controller
-                name={`businessDetails.customFields.${index}.value`}
+                name={`businessDetails.customFields.${index}.value` as const}
                 control={control}
                 render={({ field }) => (
                   <Input

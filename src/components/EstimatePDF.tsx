@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import { FormData, DesignSettings, Item, CustomField } from '../App';
+import { FormData, DesignSettings, Item, CustomField } from '../types';  // Import from types instead of App
 
 // Register fonts
 Font.register({
@@ -41,8 +41,8 @@ const styles = (designSettings: DesignSettings) => StyleSheet.create({
     color: designSettings.secondaryColor,
   },
   logo: {
-    width: 160, // Increased the width for a bigger logo
-    height: 70, // Increased the height for a bigger logo
+    width: 160,
+    height: 70,
     objectFit: 'contain',
   },
   section: {
@@ -169,11 +169,11 @@ interface EstimatePDFProps {
 }
 
 const EstimatePDF: React.FC<EstimatePDFProps> = ({ data, designSettings }) => {
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: number): string => {
     return `$${amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
   };
 
-  const renderCustomFields = (fields: CustomField[]) => {
+  const renderCustomFields = (fields: CustomField[]): JSX.Element[] => {
     return fields.map((field, index) => (
       <View key={index} style={styles(designSettings).detailRow}>
         <Text style={styles(designSettings).detailLabel}>{field.key}:</Text>
@@ -182,7 +182,7 @@ const EstimatePDF: React.FC<EstimatePDFProps> = ({ data, designSettings }) => {
     ));
   };
 
-  const renderItems = (items: Item[]) => {
+  const renderItems = (items: Item[]): JSX.Element[] => {
     return items.map((item, index) => (
       <View key={index} style={[
         styles(designSettings).tableRow,
@@ -197,22 +197,22 @@ const EstimatePDF: React.FC<EstimatePDFProps> = ({ data, designSettings }) => {
     ));
   };
 
-  const calculateSubtotal = () => {
-    return data.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
+  const calculateSubtotal = (): number => {
+    return data.items.reduce((sum: number, item: Item) => sum + (item.quantity * item.rate), 0);
   };
 
-  const calculateTax = (subtotal: number) => {
+  const calculateTax = (subtotal: number): number => {
     return subtotal * (data.tax / 100);
   };
 
-  const calculateDiscount = (subtotal: number) => {
+  const calculateDiscount = (subtotal: number): number => {
     if (data.discount.type === 'percentage') {
       return subtotal * (data.discount.value / 100);
     }
     return data.discount.value;
   };
 
-  const calculateTotal = () => {
+  const calculateTotal = (): number => {
     const subtotal = calculateSubtotal();
     const tax = calculateTax(subtotal);
     const discount = calculateDiscount(subtotal);

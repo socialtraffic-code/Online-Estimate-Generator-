@@ -15,7 +15,7 @@ import {
 import { FiPlus, FiMinusCircle } from 'react-icons/fi';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import { FormData, Item } from '../App';
+import { FormData, Item } from '../types';  // Import from types instead of App
 
 interface ItemListProps {
   control: Control<FormData>;
@@ -89,7 +89,7 @@ const ItemList: React.FC<ItemListProps> = ({ control, currency }) => {
                                     {...field}
                                     type="number"
                                     placeholder="Quantity"
-                                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                                    onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
                                   />
                                 )}
                               />

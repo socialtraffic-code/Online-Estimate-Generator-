@@ -12,7 +12,7 @@ import {
   Image,
   Button,
 } from '@chakra-ui/react';
-import { DesignSettings as DesignSettingsType } from '../App';
+import { DesignSettings as DesignSettingsType } from '../types';  // Import from types instead of App
 
 interface DesignSettingsProps {
   designSettings: DesignSettingsType;
